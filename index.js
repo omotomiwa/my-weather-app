@@ -4,6 +4,7 @@ window.addEventListener("load", ()=>{
     let temperatureDescription = document.querySelector(".temperature-description");
     let temperatureDegree = document.querySelector(".temperature-degree");
     let locationTimezone = document.querySelector(".location-timezone");
+    //let stateTimezone = document.querySelector(".location-timezone");
     let temperatureSection = document.querySelector(".temperature");
     const temperatureSpan = document.querySelector(".temperature span");    
     if(navigator.geolocation){
@@ -22,10 +23,25 @@ window.addEventListener("load", ()=>{
             })
             .then(data => {
                 const{temperature, summary, icon} = data.currently;
+                console.log(data)
+
+           
+                $.ajax({
+                    url: "https://geoip-db.com/jsonp",
+                    jsonpCallback: "callback",
+                    dataType: "jsonp",
+                    success: function(location) {
+                      $('.location-timezone').html(location.country_name);
+                      $('.state-zone').html(location.city);
+                     
+                      
+                    }
+                  });
+
                 //set DOM elements from api
                 temperatureDegree.textContent = temperature;
                 temperatureDescription.textContent = summary;
-                locationTimezone.textContent = data.timezone;
+               // locationTimezone.textContent = data.timezone;
 
                 //formula
                 let celcius = (temperature - 32) * (5/9);
