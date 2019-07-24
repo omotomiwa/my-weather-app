@@ -32,7 +32,7 @@ window.addEventListener("load", ()=>{
                     dataType: "jsonp",
                     success: function(location) {
                       $('.location-timezone').html(location.country_name);
-                      $('.state-zone').html(location.city);
+                      $('.state-zone').html(location.state);
                      
                       
                     }
