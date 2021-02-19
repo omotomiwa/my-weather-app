@@ -13,16 +13,18 @@ window.addEventListener("load", ()=>{
             long = position.coords.longitude;
             lat = position.coords.latitude;
 
-
-           const proxy = "https://cors-anywhere.herokuapp.com/";
-            const api = `${proxy}https://api.darksky.net/forecast/e6e04dcca334bbb1f16e0d7a257d98bc/${lat},${long}`;
+                 //let api_key= dca15249fb21ae94c59c400cc2f7eeac;
+              // const proxy = "https://cors-anywhere.herokuapp.com/";
+            // const api = `${proxy}https://api.darksky.net/forecast/e6e04dcca334bbb1f16e0d7a257d98bc/${lat},${long}`;
+            const api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=metric&appid=dca15249fb21ae94c59c400cc2f7eeac`
           
             fetch(api)
             .then(response =>{
                 return response.json();
             })
             .then(data => {
-                const{temperature, summary, icon} = data.currently;
+                const{temp}= data.current;
+                const{description} = data.current.weather[0];
                 console.log(data)
 
            
@@ -39,25 +41,18 @@ window.addEventListener("load", ()=>{
                   });
 
                 //set DOM elements from api
-                temperatureDegree.textContent = temperature;
-                temperatureDescription.textContent = summary;
+                temperatureDegree.textContent = Math.floor(temp);
+                temperatureDescription.textContent = description;
                // locationTimezone.textContent = data.timezone;
 
                 //formula
-                let celcius = (temperature - 32) * (5/9);
+                //let convert = data.current.temp;
+              //  let celcius = (temperatureDegree.value - 32) * (5/9);
 
                 //set icon
                setIcons(icon, document.querySelector(".icon"));
-               //temperature changes
-               temperatureSection.addEventListener("click", () => {
-                   if(temperatureSpan.textContent === "F"){
-                       temperatureSpan.textContent = "C";
-                       temperatureDegree.textContent = Math.floor(celcius);
-                   } else {
-                       temperatureSpan.textContent === "F";
-                       temperatureDegree.textContent = temperature;
-                   }
-               });
+               
+    
             });
 
         });
